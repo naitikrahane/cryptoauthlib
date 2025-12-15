@@ -109,19 +109,18 @@ ATCAIfaceCfg cfg_atsha20xa_i2c_default = {
     .iface_type                 = ATCA_I2C_IFACE,
     .devtype                    = ATSHA204A,
     {
-#ifdef ATCA_ENABLE_DEPRECATED
-        .atcai2c.slave_address  = 0xC8,
+#if defined(ARDUINO)
+        .iface.atcai2c.slave_address = 0xC0,
+        .iface.atcai2c.baud          = 400000,
+        .iface.atcai2c.bus            = 2,
 #else
-        .atcai2c.address        = 0xC8,
-#endif
+        .atcai2c.address        = 0xC0,
+        .atcai2c.slave_address   = 0xC0,
         .atcai2c.bus            = 2,
-#ifdef __linux__
-        .atcai2c.baud           = 100000,
-#else
         .atcai2c.baud           = 400000,
 #endif
     },
-    .wake_delay                 = 2560,
+    .wake_delay                 = 1500,
     .rx_retries                 = 20
 };
 #endif
